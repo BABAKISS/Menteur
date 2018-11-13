@@ -3,6 +3,14 @@
 #include <string.h>
 #include <time.h>
 
+/*
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+
 
 //////////////// Déclaration des Types ///////////////////////
 typedef struct TCarte{
@@ -22,6 +30,7 @@ TCarte * Plateau;
 void InsertionTete(TCarte*,TCarte*);
 void InsertionQueue(TCarte*,TCarte*);
 void InsertionTrie(TCarte*,TCarte*);
+int  NombreDeJoueur();
 void InitsCartes();             //Création et Initialisations des 32 cartes
 int  Bornes(int,int);           //Borne pour le random
 void DistributionCarte(int);    //Distribution des cartes selon nombre de joueur
@@ -38,6 +47,7 @@ void RamasserCarte(TCarte*,TCarte*,TCarte*,int,int,int); //Si un joueur dit ment
 int main()
 {
         //LEXIQUE
+        int nb;
 	int position = 1;
 	int tour = 0;
 	int joueur;
@@ -69,9 +79,12 @@ int main()
         // **** Début **** //
         
         //INITS
-        int nb=NombreDeJoueur();
+        nb=NombreDeJoueur();
+        printf("DEBUG 1");
         InitsCartes();
+        printf("DEBUG 2");
         DistributionCarte(nb);
+        printf("DEBUG 3");
  	printf("////////////////Début de la partie/////////////// \n\n");
 	
 	while(Joueur1 != NULL && Joueur2 != NULL && Joueur3 != NULL)
@@ -177,18 +190,19 @@ void InsertionTete (TCarte * Liste, TCarte * New)
 void InsertionQueue (TCarte * Liste, TCarte * New)
 {
 	TCarte * aux;
+        
 	if (Liste != NULL)
 	{
-		aux = Liste;
+		*aux = *Liste;
 		while (aux->Suivant != NULL) 
 		{
-			aux = aux->Suivant;
+			*aux = *aux->Suivant;
 		}
-		aux->Suivant = New;
+		*aux->Suivant = *New;
 	}
 	else
 	{
-		Liste = New;
+		*Liste = *New;
 	}
 }
 
@@ -231,14 +245,14 @@ void InsertionTrie (TCarte * Liste, TCarte * New)
 //Fonction qui retourne le nombre de joueur dans la partie
 int NombreDeJoueur()
 {
-        int nb = 0;
+        int nb;
         
         do
 	{
                 printf("Combien de joueurs êtes vous ? (de 2 à 3) \n");
                 scanf("%d", &nb);
 	}
-	while(nb<2 && nb>3 );
+	while(nb<2 || nb>3 );
 
         return nb;
 }
@@ -250,9 +264,9 @@ void InitsCartes()
 	int j;
         TCarte * New;
 
-	for (i=0;i<=3;i++) // boucle pour faire 4 cartes de chaque
+	for (i=0;i<=3;i++) // boucle for pour faire 4 cartes de chaque
 	{
-		for (j=0;j<=7;j++) // boucle pour faire toutes les sortes de cartes
+		for (j=0;j<=7;j++) // boucle for pour faire toutes les sortes de cartes
 		{  
                         New = NULL;
                         switch(j)
